@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>BPMN Viewer — Процесс закупки с пулами</title>
+  <title>BPMN — Полный процесс с дорожками</title>
   <script src="https://unpkg.com/bpmn-js@11.5.0/dist/bpmn-modeler.development.js"></script>
   <style>
     html, body, #canvas {
@@ -18,12 +18,12 @@
   <script>
     const bpmnXML = `<?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
-                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
-                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
-                  id="Definitions_1"
-                  targetNamespace="http://bpmn.io/schema/bpmn">
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_1"
+  targetNamespace="http://bpmn.io/schema/bpmn">
 
   <bpmn:collaboration id="Collaboration_1">
     <bpmn:participant id="Participant_1" name="Процесс закупки ТМЦ" processRef="Process_1"/>
@@ -33,89 +33,114 @@
     <bpmn:laneSet id="LaneSet_1">
       <bpmn:lane id="Lane_1" name="Мастер / Склад">
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_CheckStock</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_CreateRequest</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_Delivery</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_Notify</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_7</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_8</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_1</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_2" name="Менеджер по закупкам">
-        <bpmn:flowNodeRef>Task_ProcessRequest</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_Contract</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_5</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_3" name="Бухгалтер">
-        <bpmn:flowNodeRef>Task_Approve</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_Payment</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_6</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
 
-    <bpmn:startEvent id="StartEvent_1" name="Необходимость ТМЦ"/>
-    <bpmn:task id="Task_CheckStock" name="Проверка остатков склада"/>
-    <bpmn:task id="Task_CreateRequest" name="Формирование заявки"/>
-    <bpmn:task id="Task_ProcessRequest" name="Обработка заявки"/>
-    <bpmn:task id="Task_Approve" name="Согласование заявки"/>
-    <bpmn:task id="Task_Contract" name="Заключение договора и счёт"/>
-    <bpmn:task id="Task_Payment" name="Оплата счёта"/>
-    <bpmn:task id="Task_Delivery" name="Приемка и обновление склада"/>
-    <bpmn:task id="Task_Notify" name="Уведомление мастера"/>
-    <bpmn:endEvent id="EndEvent_1" name="ТМЦ поставлен на учёт"/>
+    <bpmn:startEvent id="StartEvent_1" name="Необходимость ТМЦ">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
 
-    <!-- Flows -->
-    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_CheckStock"/>
-    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_CheckStock" targetRef="Task_CreateRequest"/>
-    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_CreateRequest" targetRef="Task_ProcessRequest"/>
-    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_ProcessRequest" targetRef="Task_Approve"/>
-    <bpmn:sequenceFlow id="Flow_5" sourceRef="Task_Approve" targetRef="Task_Contract"/>
-    <bpmn:sequenceFlow id="Flow_6" sourceRef="Task_Contract" targetRef="Task_Payment"/>
-    <bpmn:sequenceFlow id="Flow_7" sourceRef="Task_Payment" targetRef="Task_Delivery"/>
-    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_Delivery" targetRef="Task_Notify"/>
-    <bpmn:sequenceFlow id="Flow_9" sourceRef="Task_Notify" targetRef="EndEvent_1"/>
+    <bpmn:task id="Task_1" name="Проверка остатков склада">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_2" name="Формирование заявки">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_3" name="Обработка заявки">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_4" name="Согласование заявки">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_5" name="Договор и счёт">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_6" name="Оплата счёта">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_7" name="Приемка и обновление склада">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_8" name="Уведомление мастера">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:endEvent id="EndEvent_1" name="ТМЦ поставлен на учёт">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_1"/>
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_1" targetRef="Task_2"/>
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_2" targetRef="Task_3"/>
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_3" targetRef="Task_4"/>
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Task_4" targetRef="Task_5"/>
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="Task_5" targetRef="Task_6"/>
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="Task_6" targetRef="Task_7"/>
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_7" targetRef="Task_8"/>
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="Task_8" targetRef="EndEvent_1"/>
   </bpmn:process>
 
   <bpmndi:BPMNDiagram id="Diagram_1">
-    <bpmndi:BPMNPlane id="Plane_1" bpmnElement="Process_1">
-
+  <bpmndi:BPMNPlane id="Plane_1" bpmnElement="Process_1">
       <!-- Координаты элементов -->
       <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
-        <dc:Bounds x="100" y="100" width="36" height="36"/>
+        <dc:Bounds x="100" y="80" width="36" height="36"/>
       </bpmndi:BPMNShape>
-
-      <bpmndi:BPMNShape id="Task_CheckStock_di" bpmnElement="Task_CheckStock">
-        <dc:Bounds x="160" y="90" width="120" height="60"/>
+      <bpmndi:BPMNShape id="Task_1_di" bpmnElement="Task_1">
+        <dc:Bounds x="160" y="70" width="140" height="60"/>
       </bpmndi:BPMNShape>
-
-      <bpmndi:BPMNShape id="Task_CreateRequest_di" bpmnElement="Task_CreateRequest">
-        <dc:Bounds x="300" y="90" width="120" height="60"/>
-</bpmndi:BPMNShape>
-
-      <bpmndi:BPMNShape id="Task_ProcessRequest_di" bpmnElement="Task_ProcessRequest">
-        <dc:Bounds x="440" y="200" width="120" height="60"/>
+      <bpmndi:BPMNShape id="Task_2_di" bpmnElement="Task_2">
+        <dc:Bounds x="320" y="70" width="140" height="60"/>
       </bpmndi:BPMNShape>
-
-      <bpmndi:BPMNShape id="Task_Approve_di" bpmnElement="Task_Approve">
-        <dc:Bounds x="580" y="310" width="120" height="60"/>
+      <bpmndi:BPMNShape id="Task_3_di" bpmnElement="Task_3">
+        <dc:Bounds x="480" y="190" width="140" height="60"/>
       </bpmndi:BPMNShape>
-
-      <bpmndi:BPMNShape id="Task_Contract_di" bpmnElement="Task_Contract">
-        <dc:Bounds x="720" y="200" width="120" height="60"/>
+      <bpmndi:BPMNShape id="Task_4_di" bpmnElement="Task_4">
+        <dc:Bounds x="640" y="300" width="140" height="60"/>
       </bpmndi:BPMNShape>
-
-      <bpmndi:BPMNShape id="Task_Payment_di" bpmnElement="Task_Payment">
-        <dc:Bounds x="860" y="310" width="120" height="60"/>
+      <bpmndi:BPMNShape id="Task_5_di" bpmnElement="Task_5">
+        <dc:Bounds x="800" y="190" width="140" height="60"/>
       </bpmndi:BPMNShape>
-
-      <bpmndi:BPMNShape id="Task_Delivery_di" bpmnElement="Task_Delivery">
-        <dc:Bounds x="1000" y="90" width="120" height="60"/>
+      <bpmndi:BPMNShape id="Task_6_di" bpmnElement="Task_6">
+        <dc:Bounds x="960" y="300" width="140" height="60"/>
       </bpmndi:BPMNShape>
-
-      <bpmndi:BPMNShape id="Task_Notify_di" bpmnElement="Task_Notify">
-        <dc:Bounds x="1140" y="90" width="120" height="60"/>
+      <bpmndi:BPMNShape id="Task_7_di" bpmnElement="Task_7">
+        <dc:Bounds x="1120" y="70" width="140" height="60"/>
       </bpmndi:BPMNShape>
-
+      <bpmndi:BPMNShape id="Task_8_di" bpmnElement="Task_8">
+        <dc:Bounds x="1280" y="70" width="140" height="60"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
-        <dc:Bounds x="1280" y="100" width="36" height="36"/>
+        <dc:Bounds x="1440" y="80" width="36" height="36"/>
       </bpmndi:BPMNShape>
-
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>`;
@@ -125,7 +150,7 @@
     viewer.importXML(bpmnXML).then(() => {
       viewer.get('canvas').zoom('fit-viewport');
     }).catch(err => {
-      console.error('Ошибка загрузки BPMN', err);
+      console.error('Ошибка загрузки схемы', err);
     });
   </script>
 </body>
